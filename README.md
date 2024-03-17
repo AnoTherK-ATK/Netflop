@@ -1,4 +1,4 @@
-#Netflop - Yet another Netflix clone
+# Netflop - Yet another Netflix clone
 
 > This is just our school project in Web application Programming
 
