@@ -16,7 +16,7 @@ async function renderMovies() {
     movies.forEach((movie) => {
         const movieCard = `
             <div>
-                <div class='flex max-w-sm w-full bg-transparent shadow-md rounded-lg overflow-hidden mx-auto'>
+                <div class='flex max-w-sm w-full bg-transparent shadow-md rounded-lg overflow-hidden mx-auto h-full'>
                     <div class='w-2 bg-gray-800'></div>
             
                     <div class="overflow-hidden rounded-xl relative transform hover:-translate-y-2 transition ease-in-out duration-500 shadow-lg hover:shadow-2xl movie-item text-white movie-card"
@@ -42,13 +42,7 @@ async function renderMovies() {
                                         <div class="flex flex-col"></div>
                                         <div class="text-xs text-gray-400 mb-2">Overview:</div>
                                         <p class="text-xs text-gray-100 mb-6">
-                                            Paul Atreides, a brilliant and gifted young man born into a great destiny beyond his
-                                            understanding, must travel to the most dangerous planet in the universe to ensure the
-                                            future of his family and his people. As
-                                            malevolent forces explode into conflict over the planet's exclusive supply of the most
-                                            precious resource in existence-a commodity capable of unlocking humanity's greatest
-                                            potential-only those who can conquer their
-                                            fear will survive.
+                                            ${movie.overview}
                                         </p>
                                     </div>
                                 </div>
@@ -56,19 +50,19 @@ async function renderMovies() {
                         </div>
                         <img class="absolute inset-0 transform w-full -translate-y-4"
                             src="http://image.tmdb.org/t/p/w342${movie.poster_path}" style="filter: grayscale(0);" />
-                        <div class="poster__footer flex flex-row relative pb-10 space-x-4 z-10">
-                            <a class="flex items-center py-2 px-4 rounded-full mx-auto text-white bg-red-500 hover:bg-red-700"
+                            <div class="poster__footer flex flex-row relative pb-10 space-x-4 z-10">
+                            <a class="flex items-center py-2 px-4 rounded-full mx-auto text-white bg-red-500 hover:bg-red-700 mb-0 mt-100"
                                 href="watch.html" target="_blank" data-unsp-sanitized="clean">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
-</svg>
-
+    <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
+    </svg>
+    
                                 <div class="text-sm text-white ml-2">Watch</div>
                             </a>
-                        </div>
-                    </div>
-            
-                </div>
+                            </div>
+                            </div>
+                            
+                            </div>
             </div>
         `;
         moviesContainer.innerHTML += movieCard;
