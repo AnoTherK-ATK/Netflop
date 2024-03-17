@@ -2,7 +2,9 @@
 module.exports = {
   content: ['./build/*.html'],
   theme: {
-    extend: {},
+    extend: {
+      translate: ['group-hover'],
+    },
   },
   plugins: [
     require('@tailwindcss/forms'),
