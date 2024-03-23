@@ -43,6 +43,7 @@ async function renderMovies(genreID = 0, ppage = 0) {
         for (let i = 0; i < Math.max(0, 453  - ovw.length); i++) {
             ovw += '    ';
         }
+        movie.id = "movie" + movie.id;
         const movieCard = `
                 <div class='flex max-w-sm w-full bg-transparent shadow-md rounded-lg overflow-hidden mx-auto h-full'>
                     <div class='w-2 bg-gray-800 h-96'></div>
@@ -52,7 +53,7 @@ async function renderMovies(genreID = 0, ppage = 0) {
                         <div
                             class="absolute inset-0 z-10 transition duration-300 ease-in-out bg-gradient-to-t from-black via-gray-900 to-transparent to-55%">
                         </div>
-                        <a href="watch.html">
+                        <a href="watch.html?id=${movie.id}">
                         <div class="relative cursor-pointer group z-10 px-10 pt-10 space-y-6 movie_info" data-lity=""
                             >
                             <div class="poster__info align-self-end w-full">
@@ -95,6 +96,7 @@ async function fetchHot(id) {
     );
     const data = await response.json();
     const change = {
+        id: id,
         title: data.name || data.title,
         release_date: data.first_air_date || data.release_date,
         poster_path: data.poster_path,
@@ -125,7 +127,7 @@ async function renderHot() {
                     <div class="overflow-hidden rounded-xl relative transform hover:-translate-y-2 transition ease-in-out duration-500 shadow-lg hover:shadow-2xl movie-item text-white movie-card"
                         >
                         <div
-                            class="absolute inset-0 z-10 transition duration-300 ease-in-out bg-gradient-to-t from-black via-gray-900 to-transparent to-55%">
+                            class="absolute inset-0 z-10 transition duration-300 ease-in-out bg-gradient-to-t from-black via-gray-900 to-transparent to-70%">
                         </div>
                         <a href="watch.html">
                         <div class="relative cursor-pointer group z-10 px-10 pt-10 space-y-6 movie_info" data-lity=""
