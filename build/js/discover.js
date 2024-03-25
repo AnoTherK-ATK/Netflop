@@ -1,4 +1,4 @@
-import apiKey from "key.js"
+
 let page = 1;
 let genID = 0;
 async function fetchMovies() {
