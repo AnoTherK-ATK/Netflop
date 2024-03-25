@@ -1,11 +1,17 @@
 # Netflop - Yet another Netflix clone
 
 > This is just our school project in Web application Programming
+> 
 > Class: NT109.O21.ANTN
+> 
 > Group: 6
+> 
 > Members:
+> 
 > Nguyễn Đức Luân - 22520825
+> 
 > Đào Hoàng Phúc - 22521110
+> 
 > Vũ Ngọc Quốc Khánh - 22520661
 
 ## Architect 
