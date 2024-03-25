@@ -1,4 +1,4 @@
-const apiKey = "2f2c4f80fa170f15fec1e975abc0a486";
+import apiKey from "key.js"
 let page = 1;
 let genID = 0;
 async function fetchMovies() {
@@ -43,7 +43,7 @@ async function renderMovies(genreID = 0, ppage = 0) {
         for (let i = 0; i < Math.max(0, 453  - ovw.length); i++) {
             ovw += '    ';
         }
-        movie.id = "movie" + movie.id;
+        movie.id = "movie/" + movie.id;
         const movieCard = `
                 <div class='flex max-w-sm w-full bg-transparent shadow-md rounded-lg overflow-hidden mx-auto h-full'>
                     <div class='w-2 bg-gray-800 h-96'></div>
