@@ -7,8 +7,7 @@
     <title>Player</title>
     <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
     <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
-    <script src="js/videojs-http-streaming.min.js"></script>
-    <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet" />
+    <link href="https://unpkg.com/@videojs/themes@1/dist/sea/index.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -19,16 +18,31 @@
                 <img src="assets/img/UIT.svg" class="h-8" alt="UIT" />
                 <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">NetFlop</span>
             </a>
-            <button data-collapse-toggle="navbar-dropdown" type="button"
-                class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden focus:outline-none focus:ring-2 text-gray-400 hover:bg-gray-700 focus:ring-gray-600"
-                aria-controls="navbar-dropdown" aria-expanded="false">
-                <span class="sr-only">Open main menu</span>
-                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 17 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M1 1h15M1 7h15M1 13h15" />
-                </svg>
-            </button>
+            <div class="flex md:order-2">
+                <div class="relative sm:block">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                        </svg>
+                        <span class="sr-only">Search icon</span>
+                    </div>
+                    <input type="text" id="navbar-search"
+                        class="block max-[400px]:w-24 w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Search...">
+                </div>
+                <button data-collapse-toggle="navbar-dropdown" type="button"
+                    class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden focus:outline-none focus:ring-2 text-gray-400 hover:bg-gray-700 focus:ring-gray-600"
+                    aria-controls="navbar-dropdown" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 17 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M1 1h15M1 7h15M1 13h15" />
+                    </svg>
+                </button>
+            </div>
             <div class="hidden w-full md:block md:w-auto" id="navbar-dropdown">
                 <ul
                     class="flex flex-col font-medium p-4 md:p-0 mt-4 border rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 bg-gray-800 md:bg-gray-900 border-gray-700">
@@ -141,10 +155,6 @@
                         <a onclick="renderHot()"
                             class="cursor-pointer block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent">Hot</a>
                     </li>
-                    <li>
-                        <a href="mailto:22520661@gm.uit.edu.vn"
-                            class="block py-2 px-3  rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent">Contact</a>
-                    </li>
                     <!-- Please remember, BE -->
                     <li>
                         <a href="#"
@@ -155,7 +165,7 @@
             </div>
         </div>
     </nav>
-    <video id="my-video" class="video-js vjs-theme-city" controls preload="auto" width="1280" height="720" poster="assets/img/CGW.jpg"
+    <video id="player" class="video-js vjs-theme-sea vjs-fluid vjs-16-9" controls preload="auto" poster="assets/img/CGW.jpg"
         data-setup="{}">
         <source src="assets/vid/rick.mp4" type="video/mp4" />
         <p class="vjs-no-js">
@@ -164,6 +174,9 @@
             <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
         </p>
     </video>
+    <script>
+        var player = videojs('player');
+    </script>
 </body>
 
 </html>

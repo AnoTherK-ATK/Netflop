@@ -8,6 +8,9 @@ module.exports = {
   theme: {
     extend: {
       translate: ['group-hover'],
+      screen: {
+        'mf': '400px',
+      }
     },
   },
   plugins: [

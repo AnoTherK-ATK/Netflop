@@ -1,6 +1,32 @@
 {
+
   "dependencies": {
-    "flowbite": "^2.3.0"
+
+    "@tailwindcss/forms": "^0.5.7",
+
+    "express": "^4.19.2",
+
+    "flowbite": "^2.3.0",
+
+    "videojs-plus": "^1.6.9"
+
   },
-  "type": "module"
+
+  "type": "module",
+
+  "scripts": {
+
+    "tailwind": "npx tailwindcss -i ./src/input.css -o ./build/css/style.css --watch",
+
+    "prettire": "npx prettier --write **/*.html"
+
+  },
+
+  "devDependencies": {
+
+    "prettier-plugin-tailwindcss": "^0.5.12"
+
+  }
+
 }
+
