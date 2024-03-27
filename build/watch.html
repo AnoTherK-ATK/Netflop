@@ -9,9 +9,14 @@
     <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
     <link href="https://unpkg.com/@videojs/themes@1/dist/sea/index.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/key.js"></script>
 </head>
 
-<body class="h-full mx-auto py-8 bg-gray-800 relative">
+<body class="h-full mx-auto py-8 bg-gray-800 relative" onload="renderRating()">
     <nav class="border-gray-200 bg-gray-900 dark:border-gray-700">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="index.html" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -165,8 +170,8 @@
             </div>
         </div>
     </nav>
-    <video id="player" class="video-js vjs-theme-sea vjs-fluid vjs-16-9" controls preload="auto" poster="assets/img/CGW.jpg"
-        data-setup="{}">
+    <video id="player" class="video-js vjs-theme-sea vjs-fluid vjs-16-9" controls preload="auto"
+        poster="assets/img/dune.jpg" data-setup="{}">
         <source src="assets/vid/rick.mp4" type="video/mp4" />
         <p class="vjs-no-js">
             To view this video please enable JavaScript, and consider upgrading to a
@@ -174,9 +179,83 @@
             <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
         </p>
     </video>
+    <!-- Vote and comment -->
+    <div class="flex items-center relative right-0 inset-y-0 h-fit w-fit">
+        <span class="w-1 h-1 mx-1.5 rounded-full bg-gray-400"></span>
+        <span class="text-sm font-mediu hover:no-underline text-white" id="count"></span>
+        <span class="w-1 h-1 mx-1.5 rounded-full bg-transparent"></span>
+        <button onclick="upVote()" type="button" class="border border-green-400 focus:ring-4 rounded-lg hover:bg-green-400 text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z" />
+            </svg>
+        </button>
+        <span class="w-1 h-1 mx-1.5 rounded-full bg-transparent"></span>
+        <button onclick="downVote()" type="button" class="border border-green-400 focus:ring-4 rounded-lg hover:bg-green-400 text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7.498 15.25H4.372c-1.026 0-1.945-.694-2.054-1.715a12.137 12.137 0 0 1-.068-1.285c0-2.848.992-5.464 2.649-7.521C5.287 4.247 5.886 4 6.504 4h4.016a4.5 4.5 0 0 1 1.423.23l3.114 1.04a4.5 4.5 0 0 0 1.423.23h1.294M7.498 15.25c.618 0 .991.724.725 1.282A7.471 7.471 0 0 0 7.5 19.75 2.25 2.25 0 0 0 9.75 22a.75.75 0 0 0 .75-.75v-.633c0-.573.11-1.14.322-1.672.304-.76.93-1.33 1.653-1.715a9.04 9.04 0 0 0 2.86-2.4c.498-.634 1.226-1.08 2.032-1.08h.384m-10.253 1.5H9.7m8.075-9.75c.01.05.027.1.05.148.593 1.2.925 2.55.925 3.977 0 1.487-.36 2.89-.999 4.125m.023-8.25c-.076-.365.183-.75.575-.75h.908c.889 0 1.713.518 1.972 1.368.339 1.11.521 2.287.521 3.507 0 1.553-.295 3.036-.831 4.398-.306.774-1.086 1.227-1.918 1.227h-1.053c-.472 0-.745-.556-.5-.96a8.95 8.95 0 0 0 .303-.54" />
+            </svg>
+        </button>
+    </div>
+    
+    <form >
+        <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+            <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+                <label for="comment" class="sr-only">Your comment</label>
+                <textarea id="comment" rows="4"
+                    class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+                    placeholder="Write a comment..." required /></textarea>
+            </div>
+            <div class="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
+                <button type="submit"
+                    class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+                    Post comment
+                </button>
+                <div class="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
+                    <button type="button"
+                        class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 12 20">
+                            <path stroke="currentColor" stroke-linejoin="round" stroke-width="2"
+                                d="M1 6v8a5 5 0 1 0 10 0V4.5a3.5 3.5 0 1 0-7 0V13a2 2 0 0 0 4 0V6" />
+                        </svg>
+                        <span class="sr-only">Attach file</span>
+                    </button>
+                    <button type="button"
+                        class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 16 20">
+                            <path
+                                d="M8 0a7.992 7.992 0 0 0-6.583 12.535 1 1 0 0 0 .12.183l.12.146c.112.145.227.285.326.4l5.245 6.374a1 1 0 0 0 1.545-.003l5.092-6.205c.206-.222.4-.455.578-.7l.127-.155a.934.934 0 0 0 .122-.192A8.001 8.001 0 0 0 8 0Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" />
+                        </svg>
+                        <span class="sr-only">Set location</span>
+                    </button>
+                    <button type="button"
+                        class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 20 18">
+                            <path
+                                d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
+                        </svg>
+                        <span class="sr-only">Upload image</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <p class="ms-auto text-xs text-gray-500 dark:text-gray-400">Remember, contributions to this topic should follow our
+        <a href="#" class="text-blue-600 dark:text-blue-500 hover:underline">Community Guidelines</a>.</p>
+
     <script>
-        var player = videojs('player');
+        var player = videojs('player', {
+            responsive: true,
+        });
+
     </script>
+
 </body>
 
 </html>
