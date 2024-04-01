@@ -7,6 +7,7 @@
     <title>Netflop - Sign in</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="assets/img/UIT.svg" type="image/x-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
 <body class="h-ful bg-gradient-to-tr from-teal-600 to-blue-950 to-60%">
@@ -18,7 +19,7 @@
         </div>
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-4 sm:p-6 bg-gray-800 border border-gray-200 rounded-lg shadow-xl">
-            <form class="space-y-6" action="#" method="POST">
+            <form class="space-y-6" id="login" method="POST">
 
                 <div>
                     <label for="email" class="block text-sm font-medium leading-6 text-white">Email address</label>
@@ -59,6 +60,30 @@
         </div>
 
     </div>
+    <script>
+        $(document).ready(function() {
+            $('#login').submit(function(e) {
+              e.preventDefault();
+              var formData = {
+                email: $('#email').val(),
+                password: $('#password').val()
+              };
+              $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8090/login',
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                success: function(response) {
+                  console.log(response);
+                },
+                error: function(xhr, status, error) {
+                  console.error(xhr.responseText);
+                }
+              });
+            });
+          });
+          
+    </script>
 </body>
 
 </html>
