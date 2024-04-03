@@ -70,7 +70,7 @@
               };
               $.ajax({
                 type: 'POST',
-                url: 'http://localhost:8090/login',
+                url: 'http://localhost:8090/auth/login',
                 data: JSON.stringify(formData),
                 contentType: 'application/json',
                 success: function(response) {
