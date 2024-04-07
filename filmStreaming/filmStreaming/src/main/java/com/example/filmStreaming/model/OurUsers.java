@@ -22,11 +22,13 @@ public class OurUsers implements UserDetails {
 
 
     private long id;
+    private String name;
     private String password;
     private String email;
     private String role;
 
-    public OurUsers(String email, String password, String role) {
+    public OurUsers(String name, String email, String password, String role) {
+        this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;

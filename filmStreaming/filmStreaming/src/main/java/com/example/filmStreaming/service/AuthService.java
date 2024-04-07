@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,6 +45,7 @@ public class AuthService
                     resp.setMessage("Email already exists");
                     return resp;
                 }
+                ourUsers.setName(registrationRequest.getName());
                 ourUsers.setEmail(registrationRequest.getEmail());
                 ourUsers.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
                 ourUsers.setRole("user");
@@ -80,7 +82,6 @@ public class AuthService
            response.setExpirationTime("12hrs"); // 12 hours
            response.setMessage("User Logged in Successfully");
 
-
         } catch (Exception e) {
             response.setStatusCode(500);
             response.setError(e.getMessage());
@@ -88,20 +89,20 @@ public class AuthService
         return response;
     }
 
-    public ReqRes refreshToken (ReqRes refreshTokenRequest)
-    {
-        ReqRes response = new ReqRes();
-        String ourEmail = jwtUtils.extractUsername(refreshTokenRequest.getRefreshToken());
-        OurUsers users = ourUsersRepository.findByEmail(ourEmail).orElseThrow();
-        if (jwtUtils.isTokenValid(refreshTokenRequest.getToken(), users)){
-            var jwt = jwtUtils.generateToken(users);
-            response.setStatusCode(200);
-            response.setToken(jwt);
-            response.setExpirationTime("12hrs");
-            response.setMessage("Token Refreshed Successfully");
-
-        }
-        response.setStatusCode(500);
-        return response;
-    }
+//    public ReqRes refreshToken (ReqRes refreshTokenRequest)
+//    {
+//        ReqRes response = new ReqRes();
+//        String ourEmail = jwtUtils.extractUsername(refreshTokenRequest.getRefreshToken());
+//        OurUsers users = ourUsersRepository.findByEmail(ourEmail).orElseThrow();
+//        if (jwtUtils.isTokenValid(refreshTokenRequest.getToken(), users)){
+//            var jwt = jwtUtils.generateToken(users);
+//            response.setStatusCode(200);
+//            response.setToken(jwt);
+//            response.setExpirationTime("12hrs");
+//            response.setMessage("Token Refreshed Successfully");
+//
+//        }
+//        response.setStatusCode(500);
+//        return response;
+//    }
 }

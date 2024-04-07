@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "http://localhost")
 public class AuthController {
     @Autowired
     private AuthService authService;
@@ -25,10 +26,10 @@ public class AuthController {
         return ResponseEntity.ok(authService.SignIn(signInRequest));
     }
 
-    @PostMapping("/refresh")
-    public ResponseEntity<ReqRes> refreshToken (@RequestBody ReqRes refreshTokenRequest)
-    {
-        return ResponseEntity.ok(authService.refreshToken(refreshTokenRequest));
-    }
+//    @PostMapping("/refresh")
+//    public ResponseEntity<ReqRes> refreshToken (@RequestBody ReqRes refreshTokenRequest)
+//    {
+//        return ResponseEntity.ok(authService.refreshToken(refreshTokenRequest));
+//    }
 
 }

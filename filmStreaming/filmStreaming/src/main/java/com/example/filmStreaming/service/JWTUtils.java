@@ -20,7 +20,7 @@ import static io.jsonwebtoken.Jwts.*;
 
 @Component
 public class JWTUtils {
-    private SecretKey Key;
+    private final SecretKey Key;
     private static final long EXPIRATION_TIME = 43200000; // 12 hours
 //    private static final long REFRESH_EXPIRATION_TIME = 43200000; // 12 hours
 

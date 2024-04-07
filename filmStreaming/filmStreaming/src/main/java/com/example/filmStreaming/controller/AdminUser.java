@@ -30,10 +30,6 @@ public class AdminUser {
 
     @PostMapping("/user/alone")
     public ResponseEntity<Object> getFilm(@RequestBody ReqRes filmRequest) {
-//        Film filmToSave = new Film();
-//        filmToSave.setFilmName(filmRequest.getFilmName());
-//        filmToSave.setPath(filmRequest.getPath());
-//        return ResponseEntity.ok(filmRepository.save(filmToSave));
         return ResponseEntity.ok("User alone can only access this API ");
     }
 
