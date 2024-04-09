@@ -169,3 +169,5 @@ async function searchMovies(search) {
         moviesContainer.innerHTML += movieCard;
     });
 }
+
+

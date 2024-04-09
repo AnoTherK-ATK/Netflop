@@ -30,3 +30,4 @@ function downVote() {
     cnt -= 1;
     countId.innerHTML = cnt + " votes";
 }
+

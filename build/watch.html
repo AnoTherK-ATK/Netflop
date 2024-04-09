@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Player</title>
-    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
-    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
-    <link href="https://unpkg.com/@videojs/themes@1/dist/sea/index.css" rel="stylesheet">
+    <script src="//cdn.jsdelivr.net/npm/hls.js@1"></script>
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
@@ -170,20 +170,15 @@
             </div>
         </div>
     </nav>
-    <video id="player" class="video-js vjs-theme-sea vjs-fluid vjs-16-9" controls preload="auto"
-        poster="assets/img/dune.jpg" data-setup="{}">
+    <video id="player" controls crossorigin playsinline preload="auto" poster="assets/img/dune.jpg" data-setup="{}">
         <source src="assets/vid/rick.mp4" type="video/mp4" />
-        <p class="vjs-no-js">
-            To view this video please enable JavaScript, and consider upgrading to a
-            web browser that
-            <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-        </p>
     </video>
     <!-- Vote and comment -->
     <div class="flex items-center relative ml-1 mr-0 inset-y-0 my-10">
         <span class="text-xl font-mediu hover:no-underline text-white" id="count"></span>
         <span class="w-1 h-1 mx-1.5 rounded-full bg-transparent"></span>
-        <button onclick="upVote()" type="button" class="px-5 py-3 border border-green-400 focus:ring-4 rounded-lg hover:bg-green-400 text-white">
+        <button onclick="upVote()" type="button"
+            class="px-5 py-3 border border-green-400 focus:ring-4 rounded-lg hover:bg-green-400 text-white">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -191,7 +186,8 @@
             </svg>
         </button>
         <span class="w-1 h-1 mx-1.5 rounded-full bg-transparent"></span>
-        <button onclick="downVote()" type="button" class="px-5 py-3 border border-green-400 focus:ring-4 rounded-lg hover:bg-green-400 text-white">
+        <button onclick="downVote()" type="button"
+            class="px-5 py-3 border border-green-400 focus:ring-4 rounded-lg hover:bg-green-400 text-white">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -199,8 +195,8 @@
             </svg>
         </button>
     </div>
-    
-    <form >
+
+    <form>
         <div class="w-full mb-4 border rounded-lg bg-gray-700 border-gray-600">
             <div class="px-4 py-2 rounded-t-lg bg-gray-800">
                 <label for="comment" class="sr-only">Your comment</label>
@@ -247,10 +243,8 @@
     </form>
 
     <script>
-        var player = videojs('player', {
-            responsive: true,
-        });
-
+        const player = new Plyr('video', { captions: { active: true, update: true, language: 'en' } });
+        window.player = player;
     </script>
 
 </body>
