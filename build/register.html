@@ -59,26 +59,29 @@
         $(document).ready(function () {
             $('#register').submit(function (e) {
                 e.preventDefault();
-                var loginData = {
-                    name: $('#name').val(),
-                    email: $('#email').val(),
-                    password: $('#password').val()
-                };
+                    var loginData = {
+                        name : $('#name').val(),
+                        email :  $('#email').val(),
+                        password : $('#password').val()
+                    };
+         
                 $.ajax({
-                    type: "POST",
+                    type: 'POST',
                     url: "http://localhost:8090/auth/signup",
                     data: JSON.stringify(loginData),
+                    contentType: "application/json",
                     success: function (response) {
-                        if (response.status == 200) {
+                        var statusCode = response.statusCode;
+                        if (statusCode == 200) {
                             alert('Register success');
                             window.location.href = 'login.html';
                         } else {
-                            alert('Register failed');
+                            alert(response.message);
                         }
                     },
-                    error: function (response) {
-                        alert('Register failed');
-                    }
+                    error: function (error) {
+                    alert('Register failed');
+                    }   
                 });
             });
         });
