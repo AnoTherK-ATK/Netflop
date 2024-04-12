@@ -78,6 +78,8 @@ async function renderMovies(genreID = 0, ppage = 0) {
     if (genreID == 0) {
         genID = 0;
         movies = await fetchMovies();
+    } else if (genreID == -1) {
+        return;
     } else {
         moviesContainer.innerHTML = "";
         genID = genreID;
@@ -116,6 +118,7 @@ async function fetchHot(id) {
 }
 
 async function renderHot() {
+    genreID = -1;
     let movies = [];
     const moviesContainer = document.getElementById("movies-container");
     moviesContainer.innerHTML = "";
@@ -169,5 +172,3 @@ async function searchMovies(search) {
         moviesContainer.innerHTML += movieCard;
     });
 }
-
-

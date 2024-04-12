@@ -171,7 +171,6 @@
         </div>
     </nav>
     <video id="player" controls crossorigin playsinline preload="auto" poster="assets/img/dune.jpg" data-setup="{}">
-        <source src="assets/vid/rick.mp4" type="video/mp4" />
     </video>
     <!-- Vote and comment -->
     <div class="flex items-center relative ml-1 mr-0 inset-y-0 my-10">
@@ -243,8 +242,50 @@
     </form>
 
     <script>
-        const player = new Plyr('video', { captions: { active: true, update: true, language: 'en' } });
-        window.player = player;
+        document.addEventListener("DOMContentLoaded", () => {
+            let player = document.getElementById("player");
+            let source = "assets/vid/vid.m3u8";
+            const defaultQuality = {};
+            if (Hls.isSupported()) {
+                var hls = new Hls();
+                hls.loadSource(source);
+                hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
+                    const availableQualities = hls.levels.map((level) => level.height);
+                    defaultQuality.controls = [
+                        "play-large", // The large play button in the center
+                        "restart", // Restart playback
+                        "rewind", // Rewind by the seek time (default 10 seconds)
+                        "play", // Play/pause playback
+                        "fast-forward", // Fast forward by the seek time (default 10 seconds)
+                        "progress", // The progress bar and scrubber for playback and buffering
+                        "current-time", // The current time of playback
+                        "duration", // The full duration of the media
+                        "mute", // Toggle mute
+                        "volume", // Volume control
+                        "captions", // Toggle captions
+                        "settings", // Settings menu
+                        "fullscreen", // Toggle fullscreen
+                    ];
+                    defaultQuality.quality = {
+                        default: availableQualities[0],
+                        options: availableQualities,
+                        forced: true,
+                        onChange: (e) => updateQuality(e)
+                    }
+                    new Plyr(player, defaultQuality);
+                });
+                hls.attachMedia(player);
+                window.hls = hls;
+            }
+            function updateQuality(newQuality) {
+                window.hls.levels.forEach((level, levelIndex) => {
+                    if (level.height === newQuality) {
+                        window.hls.currentLevel = levelIndex;
+                    }
+                });
+            }
+        });
+        
     </script>
 
 </body>

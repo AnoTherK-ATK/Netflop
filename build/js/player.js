@@ -14,7 +14,7 @@ async function fetchRating() {
 
 async function renderRating() {
     const rating = await fetchRating();
-    countId = document  .getElementById("count");
+    countId = document.getElementById("count");
     document.title = (rating.name || rating.title) + " - NetFlop";
     countId.innerHTML = rating.vote_count + " votes";
     rate = rating.vote_average;
