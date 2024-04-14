@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -10,6 +10,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
+    <script src="js/upload.js"></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="assets/img/UIT.svg">
 </head>
@@ -168,22 +170,21 @@
             </div>
         </div>
     </nav>
-    <form class="w-3/4 mx-auto my-6">
-        <div class="flex items-center justify-center w-full mb-6">
-            <label for="dropzone-file"
-                class="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer hover:bg-bray-800 bg-gray-700 border-gray-600 hover:border-gray-500 hover:bg-gray-600">
-                <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                    <svg class="w-8 h-8 mb-4 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                        fill="none" viewBox="0 0 20 16">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                    </svg>
-                    <p class="mb-2 text-sm text-gray-400"><span class="font-semibold">Click to upload</span> or drag and
-                        drop</p>
-                    <p class="text-xs text-gray-400">Video file format</p>
-                </div>
-                <input id="dropzone-file" type="file" class="hidden" accept="video/*" />
-            </label>
+    <form class="w-3/4 mx-auto my-6" id="upload">
+
+        <div class="mb-6">
+            <label class="block mb-2 text-sm font-medium text-white" for="movie_input">Upload movie</label>
+            <input
+                class="block w-full text-sm border rounded-lg cursor-pointer text-gray-400 focus:outline-none bg-gray-700 border-gray-600 placeholder-gray-400"
+                aria-describedby="file_input_help" id="movie_input" type="file" accept="video/*" required>
+            <p class="mt-1 text-sm text-gray-300" id="movie_input_help">Video file</p>
+        </div>
+        <div class="mb-6">
+            <label class="block mb-2 text-sm font-medium text-white" for="poster_input">Upload poster</label>
+            <input
+                class="block w-full text-sm border rounded-lg cursor-pointer text-gray-400 focus:outline-none bg-gray-700 border-gray-600 placeholder-gray-400"
+                aria-describedby="file_input_help" id="poster_input" type="file" accept="image/*">
+            <p class="mt-1 text-sm text-gray-300" id="poster_input_help">Image file</p>
         </div>
         <div class="mb-6">
             <label for="name" class="block mb-2 text-sm font-medium text-white">Name</label>
@@ -191,14 +192,55 @@
                 class="border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                 placeholder="The new Movie" required />
         </div>
-        <label for="message" class="block mb-2 text-sm font-medium text-white">Overview</label>
-        <textarea id="message" rows="4"
+        <label for="overview" class="block mb-2 text-sm font-medium text-white">Overview</label>
+        <textarea id="overview" rows="4"
             class="mb-6 block p-2.5 w-full text-sm bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
             placeholder="Write your thoughts here..."></textarea>
-
-        <button type="submit"
+        <div class="mb-6">
+            <div class="relative max-w-sm">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-400" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                    </svg>
+                </div>
+                <input datepicker type="text"
+                    class="border text-sm rounded-lg block w-full ps-10 p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Select Release date" id="release-date">
+            </div>
+        </div>
+        <button type="submit" id="submit"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
     </form>
+    <script>
+        $(document).ready(function () {
+            $('form').submit(function (event) {
+                event.preventDefault();
+                console.log($(this));
+                const formData = $("form").serializeArray();
+                console.log(formData);
+                const jsonData = {};
+                $.each(formData, function () {
+                    jsonData[this.name] = this.value;
+                });
+                const jsonString = JSON.stringify(jsonData);
+                console.log(jsonString);
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:3000/movies',
+                    contentType: 'application/json',
+                    data: jsonString,
+                    success: function (data) {
+                        console.log('success');
+                    },
+                    error: function (data) {
+                        console.log('error');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

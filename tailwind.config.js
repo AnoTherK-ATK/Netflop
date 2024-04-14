@@ -19,5 +19,6 @@ module.exports = {
       charts: true,
     })
   ],
+  darkMode: 'class',
 }
 
