@@ -1,5 +1,10 @@
 let page = 1;
 let genID = 0;
+const param = new URLSearchParams(window.location.search);
+if (param.has("genre")) {
+    genID = param.get("genre");
+}
+console.log(genID);
 async function fetchMovies() {
     const response = await fetch(
         `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=${page}`
@@ -68,7 +73,7 @@ async function fetchMoviesByGenre(genreId) {
     return data.results;
 }
 
-async function renderMovies(genreID = 0, ppage = 0) {
+async function renderMovies(genreID = genID, ppage = 0) {
     const moviesContainer = document.getElementById("movies-container");
     let movies;
     if (ppage == 0) {

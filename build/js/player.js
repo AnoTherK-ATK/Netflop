@@ -3,6 +3,8 @@ const id = param.get("id");
 var countId;
 let rate = 0;
 let cnt = 0;
+let isUpVoted = false;
+let isDownVoted = false;
 
 async function fetchRating() {
     const response = await fetch(
@@ -21,13 +23,58 @@ async function renderRating() {
     cnt = rating.vote_count;
 }
 
+$(document).ready(function () {
+    $("#up").click(function () {
+        $("#up").toggleClass("bg-green-400");
+        $("#down").removeClass("bg-green-400");
+    });
+    $("#down").click(function () {
+        $("#down").toggleClass("bg-green-400");
+        $("#up").removeClass("bg-green-400");
+    });
+});
+
 function upVote() {
-    cnt += 1;
-    countId.innerHTML = cnt + " votes";
+    if (isUpVoted) {
+        cnt -= 1;
+        countId.innerHTML = cnt + " votes";
+        isUpVoted = false;
+        return;
+    }
+    else if (isDownVoted) {
+        cnt += 2;
+        countId.innerHTML = cnt + " votes";
+        isUpVoted = true;
+        isDownVoted = false;
+        return;
+    } else {
+        cnt += 1;
+        countId.innerHTML = cnt + " votes";
+        isUpVoted = true;
+        isDownVoted = false;
+        return;
+    }
 }
 
 function downVote() {
-    cnt -= 1;
-    countId.innerHTML = cnt + " votes";
+    if (isDownVoted) {
+        cnt += 1;
+        countId.innerHTML = cnt + " votes";
+        isDownVoted = false;
+        return;
+    }
+    else if (isUpVoted) {
+        cnt -= 2;
+        countId.innerHTML = cnt + " votes";
+        isDownVoted = true;
+        isUpVoted = false;
+        return;
+    } else {
+        cnt -= 1;
+        countId.innerHTML = cnt + " votes";
+        isDownVoted = true;
+        isUpVoted = false;
+        return;
+    }
 }
 
