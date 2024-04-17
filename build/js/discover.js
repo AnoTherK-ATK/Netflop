@@ -84,6 +84,7 @@ async function renderMovies(genreID = genID, ppage = 0) {
         genID = 0;
         movies = await fetchMovies();
     } else if (genreID == -1) {
+        await renderHot();
         return;
     } else {
         moviesContainer.innerHTML = "";
