@@ -63,31 +63,34 @@
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
     </form>
     <script>
-        $(document).ready(function () {
-            $('form').submit(function (event) {
-                event.preventDefault();
-                console.log($(this));
-                const formData = $("form").serializeArray();
-                console.log(formData);
-                const jsonData = {};
-                $.each(formData, function () {
-                    jsonData[this.name] = this.value;
-                });
-                const jsonString = JSON.stringify(jsonData);
-                console.log(jsonString);
-                $.ajax({
-                    type: 'POST',
-                    url: 'http://localhost:3000/movies',
-                    contentType: 'application/json',
-                    data: jsonString,
-                    success: function (data) {
-                        console.log('success');
-                    },
-                    error: function (data) {
-                        console.log('error');
-                    }
-                });
+        const API_URL = 'http://localhost:3000';
+        document.getElementById('upload').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const movie = document.getElementById('movie_input').files[0];
+            const poster = document.getElementById('poster_input').files[0];
+            const name = document.getElementById('name').value;
+            const overview = document.getElementById('overview').value;
+            const releaseDate = document.getElementById('release-date').value;
+            const formData = new FormData();
+            formData.append('movie', movie);
+            formData.append('poster', poster);
+            formData.append('name', name);
+            formData.append('overview', overview);
+            formData.append('releaseDate', releaseDate);
+            console.log(formData);
+            const response = await fetch(`${API_URL}/upload`, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                },
+                body: formData
             });
+            if (response.ok) {
+                alert('Movie uploaded successfully');
+                window.location.href = 'discover.html';
+            } else {
+                alert('Failed to upload movie');
+            }
         });
     </script>
 </body>
