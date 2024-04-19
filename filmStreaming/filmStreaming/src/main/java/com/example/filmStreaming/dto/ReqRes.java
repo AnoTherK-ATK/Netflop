@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @JsonIgnoreProperties (ignoreUnknown = true)
@@ -26,5 +27,6 @@ public class ReqRes {
     private OurUsers ourUsers;
     private List<Film> films;
     private String path;
+    private UUID uuid;
 
 }

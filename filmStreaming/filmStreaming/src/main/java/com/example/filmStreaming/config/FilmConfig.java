@@ -12,20 +12,20 @@ import org.springframework.context.annotation.Bean;
 @Configuration
 //@ComponentScan("com.example.filmStreaming.film")
 public class FilmConfig {
-    @Bean
-    CommandLineRunner commandLineRunner(FilmRepository repository) {
-        return args -> {
-            Film knk = new Film(
-                    "kara_no_kyoukai",
-                    "/filmStorage"
-            );
-            Film frieren = new Film(
-                    "sosou_no_frieren",
-                    "/filmStorage"
-            );
-            repository.saveAll(
-                    List.of(knk, frieren)
-            );
-        };
-    }
+//    @Bean
+//    CommandLineRunner commandLineRunner(FilmRepository repository) {
+//        return args -> {
+//            Film knk = new Film(
+//                    "kara_no_kyoukai",
+//                    "/filmStorage"
+//            );
+//            Film frieren = new Film(
+//                    "sosou_no_frieren",
+//                    "/filmStorage"
+//            );
+//            repository.saveAll(
+//                    List.of(knk, frieren)
+//            );
+//        };
+//    }
 }

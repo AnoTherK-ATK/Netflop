@@ -1,56 +1,42 @@
 package com.example.filmStreaming.service;
 
-import com.example.filmStreaming.dto.ReqRes;
 import com.example.filmStreaming.repository.FilmRepository;
 import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFmpegExecutor;
 import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 @Service
 public class HLSService {
-
     @Autowired
     private FilmRepository filmRepository;
 
-    private final String STORAGE_DIRECTORY = "D:\\hls\\storage";
-    private final String FILM_LIST_DIRECTORY = "D:\\hls\\storage\\filmList";
     private final FFmpeg ffmpeg = new FFmpeg();
     private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     public HLSService() throws IOException {
     }
-
-    public String generateHLS(String userName, String filmName) {
-//        Optional<String> pathOptional = filmRepository.findPathByFilmName(filmName);
-////        String pathByFilmName;
-////        pathByFilmName = pathOptional.orElse("Path not found");
-////        if (pathByFilmName.equals("Path not found")) {
-////            return "Path not found";
-////        }
-
-        String userDirectoryPath = STORAGE_DIRECTORY + File.separator + userName;
-        File userDirectory = new File(userDirectoryPath);
-
-        if (!userDirectory.exists()) {
-            userDirectory.mkdirs();
-        }
-
-        File userVideoDirectory = new File(userDirectoryPath);
-
-        if (userVideoDirectory.exists()) {
-            deleteHLSFiles(userVideoDirectory);
+    public String generate(String userName, UUID uuid) {
+        Optional<String> pathQuery = filmRepository.findPathByID(uuid);
+        String outputM3U8Path;
+        outputM3U8Path = pathQuery.orElse("Path not found");
+        if (outputM3U8Path.equals("Path not found")) {
+            return "Path not found";
         }
 
 
-        final String inputVideoPath = FILM_LIST_DIRECTORY + File.separator + "test.mp4";
-        final String outputM3U8Path = userVideoDirectory + File.separator;
+//      String MP4_Input_Filename = uuid.toString() + ".mp4";
+        String MP4_Input_Filename = "test.mp4";
+        String MP4_Saver_Directory = "D:\\hls\\storage\\filmList";
+        String inputVideoPath = MP4_Saver_Directory + File.separator + MP4_Input_Filename;
+
+
         try {
             Thread thread720p =
                     new Thread() {
@@ -78,13 +64,13 @@ public class HLSService {
         }
         catch (Exception e) {
             e.printStackTrace();
-            return "Failed HLS generation for film: " + filmName;
+            return "Failed HLS generation for film: " + uuid;
         }
-        return "Successful HLS generation for film: " + filmName;
+        return "Successful HLS generation for film: " + uuid;
     }
 
     private void generateHLSWithResolution(String inputVideoPath, String outputM3U8Path, String resolution, int width, int height, int bitrate) {
-        String outputDirectoryPath = outputM3U8Path + "output_" + resolution ;
+        String outputDirectoryPath = outputM3U8Path +  File.separator  + resolution ;
         File outputDirectory = new File(outputDirectoryPath);
         if (!outputDirectory.exists()) {
             outputDirectory.mkdirs();
@@ -111,21 +97,4 @@ public class HLSService {
             }
         });
     }
-
-    private void deleteHLSFiles(File directory) {
-        File[] files = directory.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                if (file.isDirectory()) {
-                    // Nếu là thư mục, gọi đệ quy để xóa các tệp trong thư mục đó
-                    deleteHLSFiles(file);
-                } else {
-                    if (file.getName().endsWith(".m3u8") || file.getName().endsWith(".ts")) {
-                        file.delete();
-                    }
-                }
-            }
-        }
-    }
-
 }

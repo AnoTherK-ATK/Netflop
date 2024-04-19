@@ -3,7 +3,12 @@ package com.example.filmStreaming.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
+
+import java.util.UUID;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -11,20 +16,9 @@ import lombok.NoArgsConstructor;;
 @Table(name = "films")
 public class Film {
     @Id
-    @SequenceGenerator(
-            name = "film_sequence",
-            sequenceName = "film_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue (
-            strategy =  GenerationType.SEQUENCE,
-            generator = "film_sequence"
-    )
-    @Column(
-            name="id",
-            updatable = false
-    )
-    private long id;
+    @UuidGenerator
+    @Column(name = "uuid", updatable = false, nullable = false)
+    private UUID uuid;
     @Column(
             name = "filmName",
             nullable = false,
