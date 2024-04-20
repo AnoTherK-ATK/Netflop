@@ -7,35 +7,22 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@CrossOrigin(origins = "http://localhost")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/hls")
 public class HLSController {
 
     @Autowired
-    private HLSService hlsServiceReal;
+    private HLSService hlsService;
     @Autowired
     private FilmRepository filmRepository;
-//    @Autowired
-//    private HostFilmFilesService hostFilmFilesService;
+
 
 
     @PostMapping("/generate")
     public String generate(@RequestBody ReqRes filmRequest) {
-        String userName = filmRequest.getEmail();
         UUID uuid = filmRequest.getUuid();
-        return hlsServiceReal.generate(userName, uuid);
+        return hlsService.generate(uuid);
     }
 
-//    @PostMapping("/hostFilmFiles")
-//    public ResponseEntity<Object> hostFilm(@RequestBody ReqRes filmRequest) {
-//    UUID uuid = filmRequest.getUuid();
-//    String pathToGetFilm = filmRepository.findPathByID(uuid).orElse("Path not found");
-//    if (pathToGetFilm.equals("Path not found")) {
-//        return ResponseEntity.ok("Film not found");
-//    }
-//    return ResponseEntity.ok(hostFilmFilesService.uploadFolder(
-//            pathToGetFilm, "/home/netflop/upload"));
-//
-//    }
 }

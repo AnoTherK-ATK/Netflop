@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.File;
 import java.util.UUID;
 
-@CrossOrigin(origins = "http://localhost")
+@CrossOrigin(origins = "*")
 @RestController
 public class AdminUser {
     @Autowired
@@ -28,7 +28,7 @@ public class AdminUser {
 
     @PostMapping("/admin/uploadFilmInfo")
     public ResponseEntity<UUID> uploadFilm(@RequestBody ReqRes filmRequest) {
-        String storagePath = "D:\\hls\\storage\\filmList";
+        String storagePath = "/home/wh1t3sh4d0w/Desktop/filmList";
         Film filmToSave = new Film();
         filmToSave.setFilmName(filmRequest.getFilmName());
         filmToSave.setPath("");

@@ -22,18 +22,16 @@ public class HLSService {
 
     public HLSService() throws IOException {
     }
-    public String generate(String userName, UUID uuid) {
+    public String generate(UUID uuid) {
         Optional<String> pathQuery = filmRepository.findPathByID(uuid);
         String outputM3U8Path;
         outputM3U8Path = pathQuery.orElse("Path not found");
         if (outputM3U8Path.equals("Path not found")) {
             return "Path not found";
         }
-
-
 //      String MP4_Input_Filename = uuid.toString() + ".mp4";
         String MP4_Input_Filename = "test.mp4";
-        String MP4_Saver_Directory = "D:\\hls\\storage\\filmList";
+        String MP4_Saver_Directory = "/home/wh1t3sh4d0w/Desktop/filmList";
         String inputVideoPath = MP4_Saver_Directory + File.separator + MP4_Input_Filename;
 
 
