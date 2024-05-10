@@ -2,15 +2,14 @@
 <html lang="en" class="dark">
 
 <head>
-    <meta charset="UTF-8">
+    <!-- <meta charset="UTF-8"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netflop - Upload</title>
+    <title>Netflop - Player</title>
     <script src="js/key.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
-    <script src="js/upload.js"></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="assets/img/UIT.svg">
 </head>
@@ -48,8 +47,8 @@
         <div class="mb-6">
             <div class="relative max-w-sm">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-400" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="w-4 h-4 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor" viewBox="0 0 20 20">
                         <path
                             d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                     </svg>
@@ -63,35 +62,98 @@
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
     </form>
     <script>
-        const API_URL = 'http://localhost:3000';
-        document.getElementById('upload').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const movie = document.getElementById('movie_input').files[0];
-            const poster = document.getElementById('poster_input').files[0];
-            const name = document.getElementById('name').value;
-            const overview = document.getElementById('overview').value;
-            const releaseDate = document.getElementById('release-date').value;
-            const formData = new FormData();
-            formData.append('movie', movie);
-            formData.append('poster', poster);
-            formData.append('name', name);
-            formData.append('overview', overview);
-            formData.append('releaseDate', releaseDate);
-            console.log(formData);
-            const response = await fetch(`${API_URL}/upload`, {
-                method: 'POST',
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                },
-                body: formData
-            });
-            if (response.ok) {
-                alert('Movie uploaded successfully');
-                window.location.href = 'discover.html';
-            } else {
-                alert('Failed to upload movie');
+        let API_URL = 'https://sv.netflop.site/admin/uploadFilmInfo';
+        //let posterExtension = $('#poster_input')[0].files[0].name.substring($('#poster_input')[0].files[0].name.lastIndexOf('.'));
+        $(document).ready(function () {
+            if (getCookie("token") == "") {
+                window.location.href = "login.html";
+            } else if (getCookie("role") != "admin") {
+                alert("You are not authorized to access this page!");
+                window.location.href = "index.html";
             }
+            $("#upload").submit(function (e) {
+                e.preventDefault();
+
+                var formData = {
+                    filmName: $('#name').val(),
+                    description: $('#overview').val(),
+                    release: $('#release-date').val(),
+                    poster: $('#poster_input')[0].files[0].name.replaceAll(" ", "")
+                };
+
+                let token = getCookie("token");
+                let uuid = "";
+
+                // First AJAX call
+                $.ajax({
+                    url: API_URL,
+                    type: 'POST',
+                    contentType: 'application/json; charset=US-ASCII',
+                    data: JSON.stringify(formData),
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+                    },
+                    success: function (response) {
+                        //console.log(response);
+                        uuid = response;
+
+                        // Second AJAX call
+                        uploadPoster(token, uuid);
+                    }
+                });
+            });
         });
+
+        function uploadFile(token, uuid) {
+            let movie = $('#movie_input')[0].files[0];
+            let formData = new FormData();
+            formData.append('file', movie, uuid + ".mp4");
+            $.ajax({
+                url: 'https://sv.netflop.site/admin/upload',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+                },
+                success: function (response) {
+                    //console.log(response);
+                    alert("Movie uploaded successfully!");
+                    genHLS(token, uuid);
+                }
+            });
+        }
+        function genHLS(token, uuid) {
+            $.ajax({
+                url: 'https://sv.netflop.site/hls/generate/' + uuid,
+                type: 'POST',
+                //data: JSON.stringify({uuid: uuid}),
+                contentType: 'application/json',
+                success: function (response) {
+                    console.log(response);
+                }
+            });
+        }
+        function uploadPoster(token, uuid) {
+            let poster = $('#poster_input')[0].files[0];
+            let formData = new FormData();
+            formData.append('file', poster, poster.name.replaceAll(" ", ""));
+            $.ajax({
+                url: 'https://sv.netflop.site/admin/uploadPoster/' + uuid,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+                },
+                success: function (response) {
+                    console.log(response);
+                    uploadFile(token, uuid);
+                }
+            });
+        }
     </script>
 </body>
 

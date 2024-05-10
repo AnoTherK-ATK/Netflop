@@ -13,7 +13,7 @@ async function fetchMovies() {
     return data.results;
 }
 
-function elementGen(movie) {
+function elementGen(movie, gen) {
     return `<div class='flex max-w-sm w-full bg-transparent shadow-md rounded-lg overflow-hidden mx-auto h-full'>
     <div class='w-2 bg-gray-800 h-96'></div>
 
@@ -34,22 +34,22 @@ function elementGen(movie) {
                     <div class="flex flex-row justify-between datos">
                         <div class="flex flex-col datos_col">
                             <div class="text-sm text-gray-400">Release date:</div>
-                            <div class="release">${movie.release_date}</div>
+                            <div class="release">${gen == -1 ? "" : movie.release_date}</div>
                         </div>
                         <div class="flex flex-col datos_col">
                             <div class="text-sm text-gray-400">Score:</div>
-                            <div class="release">${movie.vote_average}</div>
+                            <div class="release">${gen == -1 ? "" : movie.vote_average}</div>
                         </div>
                         <div class="flex flex-col datos_col">
                             <div class="text-sm text-gray-400">Votes:</div>
-                            <div class="release">${movie.vote_count}</div>
+                            <div class="release">${gen == -1 ? "" : movie.vote_count}</div>
                         </div>
                     </div>
                     <div class="flex flex-col overview">
                         <div class="flex flex-col"></div>
                         <div class="text-xs text-gray-400 mb-2">Overview:</div>
                         <p class="text-xs text-gray-100 mb-6">
-                            ${ovw}
+                            ${(gen == -1 ? movie.ovw : ovw)}
                         </p>
                     </div>
                 </div>
@@ -57,7 +57,7 @@ function elementGen(movie) {
         </div>
         </a>
         <img class="absolute inset-0 transform w-full -translate-y-4"
-            src="http://image.tmdb.org/t/p/w342${movie.poster_path}" style="filter: grayscale(0);" />
+            src=${(gen == -1 ? movie.poster_path : ("http://image.tmdb.org/t/p/w342" + movie.poster_path))} style="filter: grayscale(0);" />
             
             </div>
             
@@ -84,6 +84,7 @@ async function renderMovies(genreID = genID, ppage = 0) {
         genID = 0;
         movies = await fetchMovies();
     } else if (genreID == -1) {
+        genID = -1;
         await renderHot();
         return;
     } else {
@@ -107,19 +108,38 @@ async function renderMovies(genreID = genID, ppage = 0) {
 }
 
 async function fetchHot(id) {
-    const response = await fetch(
-        `https://api.themoviedb.org/3/${id}?api_key=${apiKey}&language=en-US`
-    );
-    const data = await response.json();
-    const change = {
-        id: id,
-        title: data.name || data.title,
-        release_date: data.first_air_date || data.release_date,
-        poster_path: data.poster_path,
-        overview: data.overview,
-        vote_average: data.vote_average,
-        vote_count: data.vote_count,
-    };
+    
+    let data = "";
+    const response = await fetch(`https://sv.netflop.site/user/getAllFilmsInfo`, {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${getCookie("token")}`,
+        },
+    });
+    if (response.status === 200) {
+        data = await response.json();
+        console.log(data);
+    }
+    let change = [{
+        id: data[0].uuid,
+        title: data[0].filmName,
+        //release_date: data.first_air_date || data.release_date,
+        poster_path: `https://sv.netflop.site/public/media/${data[0].uuid}/${data[0].poster}`,
+        ovw: data[0].description,
+        //vote_average: data.vote_average,
+        //vote_count: data.vote_count,
+    }];
+    for (let i = 1; i < data.length; i++) {
+        change.push({
+            id: data[i].uuid,
+            title: data[i].filmName,
+            release_date: data.first_air_date || data.release_date,
+            poster_path: `https://sv.netflop.site/public/media/${data[i].uuid}/${data[i].poster}`,
+            ovw: data[i].description,
+            //vote_average: data.vote_average,
+            //vote_count: data.vote_count,
+        });
+    }
     return change;
 }
 
@@ -128,18 +148,9 @@ async function renderHot() {
     let movies = [];
     const moviesContainer = document.getElementById("movies-container");
     moviesContainer.innerHTML = "";
-    movies.push(await fetchHot("tv/241871"));
-    movies.push(await fetchHot("movie/693134"));
-    movies.push(await fetchHot("tv/97825"));
+    movies = await fetchHot();
     movies.forEach((movie) => {
-        ovw = movie.overview;
-        if (ovw.length > 450) {
-            ovw = ovw.substring(0, 450) + "...";
-        }
-        for (let i = 0; i < Math.max(0, 453 - ovw.length); i++) {
-            ovw += "    ";
-        }
-        const movieCard = elementGen(movie);
+        const movieCard = elementGen(movie, -1);
         moviesContainer.innerHTML += movieCard;
     });
 }
@@ -153,7 +164,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             document.body.offsetHeight
         ) {
             page++;
-            await renderMovies(genID, page);
+            if(genID != -1) await renderMovies(genID, page);
         }
     });
 });

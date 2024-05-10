@@ -18,7 +18,8 @@
             </h2>
         </div>
 
-        <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-4 sm:p-6 bg-gray-800 border border-gray-200 rounded-lg shadow-xl">
+        <div
+            class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-4 sm:p-6 bg-gray-800 border border-gray-200 rounded-lg shadow-xl">
             <form class="space-y-6" id="login" method="POST">
 
                 <div>
@@ -58,28 +59,33 @@
 
     </div>
     <script>
-        $(document).ready(function() {
-            $('#login').submit(function(e) {
-              e.preventDefault();
-              var formData = {
-                email: $('#email').val(),
-                password: $('#password').val()
-              };
-              $.ajax({
-                type: 'POST',
-                url: 'http://localhost:8090/auth/login',
-                data: JSON.stringify(formData),
-                contentType: 'application/json',
-                success: function(response) {
-                  console.log(response);
-                },
-                error: function(xhr, status, error) {
-                  console.error(xhr.responseText);
-                }
-              });
+        $(document).ready(function () {
+            $('#login').submit(function (e) {
+                e.preventDefault();
+                var formData = {
+                    email: $('#email').val(),
+                    password: $('#password').val()
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://sv.netflop.site/auth/signin',
+                    data: JSON.stringify(formData),
+                    contentType: 'application/json',
+                    success: function (response) {
+                        var expirationDate = new Date();
+                        expirationDate.setTime(expirationDate.getTime() + (12 * 60 * 60 * 1000));
+                        document.cookie = "name=" + response.name + ";expires=" + expirationDate.toUTCString() + "; path=/";
+                        document.cookie = "token=" + response.token + ";expires=" + expirationDate.toUTCString() + "; path=/";
+                        document.cookie = "role=" + response.role + ";expires=" + expirationDate.toUTCString() + "; path=/";
+                        window.location.href = "discover.html";
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
             });
-          });
-          
+        });
+
     </script>
 </body>
 
