@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/key.js"></script>
+</head>
+
+<body class="h-full mx-auto py-8 bg-gray-800 relative" onload="renderRating()">
+
+    <nav id="nav" class="border-gray-200 bg-gray-900 dark:border-gray-700">
+
+    </nav>
+    <script src="js/genres.js"></script>
+    <div class="w-11/12 h-auto mx-auto px-auto">
+        <video id="player" controls crossorigin playsinline preload="auto" poster="assets/img/dune.jpg" data-setup="{}">
+        </video>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            if (getCookie("token") == "") {
+                window.location.href = "login.html";
+            }
+        });
+        const urlParams = new URLSearchParams(window.location.search);
+        const uuid = urlParams.get('id');
+        $("video").attr("poster", "https://sv.netflop.site/public/media/" + uuid + "/" + uuid + ".png");
+        document.addEventListener("DOMContentLoaded", () => {
+            let player = document.getElementById("player");
+            let source = "https://sv.netflop.site/public/media/" + uuid + "/master.m3u8";
+            const defaultQuality = {};
+            if (Hls.isSupported()) {
+                var hls = new Hls();
+                hls.loadSource(source);
+                hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
+                    const availableQualities = hls.levels.map((level) => level.height);
+                    defaultQuality.controls = [
+                        "play-large", // The large play button in the center
+                        "rewind", // Rewind by the seek time (default 10 seconds)
+                        "play", // Play/pause playback
+                        "fast-forward", // Fast forward by the seek time (default 10 seconds)
+                        "progress", // The progress bar and scrubber for playback and buffering
+                        "current-time", // The current time of playback
+                        "duration", // The full duration of the media
+                        "mute", // Toggle mute
+                        "volume", // Volume control
+                        "captions", // Toggle captions
+                        "settings", // Settings menu
+                        "fullscreen", // Toggle fullscreen
+                    ];
+                    defaultQuality.quality = {
+                        default: availableQualities[2],
+                        options: availableQualities,
+                        forced: true,
+                        onChange: (e) => updateQuality(e)
+                    }
+                    new Plyr(player, defaultQuality);
+                });
+                hls.attachMedia(player);
+                window.hls = hls;
+            }
+            function updateQuality(newQuality) {
+                window.hls.levels.forEach((level, levelIndex) => {
+                    if (level.height === newQuality) {
+                        window.hls.currentLevel = levelIndex;
+                    }
+                });
+            }
+            function checkConnectionSpeed() {
+                var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                if (connection) {
+                    var speedMbps = connection.downlink / 1024;
+                    if (speedMbps < 2) {
+                        // Adjust quality for slow connections
+                        updateQuality(availableQualities[0]);
+                    } else if (speedMbps < 5) {
+                        // Adjust quality for moderate connections
+                        updateQuality(availableQualities[Math.floor(availableQualities.length / 2)]);
+                    } else {
+                        // Use default quality for fast connections
+                        updateQuality(defaultQuality.quality.default);
+                    }
+                }
+            }
+    
+            // Check connection speed when page loads
+            checkConnectionSpeed();
+        });
+
+    </script>
+</body>
+
+</html>
