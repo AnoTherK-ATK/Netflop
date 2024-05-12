@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflop - Movies</title>
+    <script src="js/discover.js"></script>
+    <script src="js/key.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="assets/img/UIT.svg">
+</head>
+
+<body class="h-full mx-auto py-8 bg-gray-800 relative">
+    <nav class="border-gray-200 bg-gray-900 dark:border-gray-700" id="nav">
+        
+    </nav>
+    <script src="js/genres.js"></script>
+
+    <div class="container w-full max-w-screen-xl mx-auto relative px-4 py-8 justify-center">
+
+        <div id="movies-container"
+            class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 justify-center">
+        </div>
+
+    </div>
+    <script>
+        const navLinks = document.querySelector('.nav-links')
+        function onToggleMenu(e) {
+            e.name = e.name === 'menu' ? 'close' : 'menu'
+            navLinks.classList.toggle('top-[9%]')
+        }
+    </script>
+    <script>
+        $("#navbar-search").on('keyup', function (e) {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+                var str = $("#navbar-search").val();
+                searchMovies(str);
+            }
+        });
+        
+    </script>
+</body>
+
+</html>
