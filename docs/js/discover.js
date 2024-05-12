@@ -57,7 +57,7 @@ function elementGen(movie, gen) {
         </div>
         </a>
         <img class="absolute inset-0 transform w-full -translate-y-4"
-            src=${(gen == -1 ? movie.poster_path : ("http://image.tmdb.org/t/p/w342" + movie.poster_path))} style="filter: grayscale(0);" />
+            src=${(gen == -1 ? movie.poster_path : ("https://image.tmdb.org/t/p/w342" + movie.poster_path))} style="filter: grayscale(0);" />
             
             </div>
             
