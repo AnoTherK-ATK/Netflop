@@ -146,6 +146,10 @@ document.getElementById("nav").innerHTML = `<div class="max-w-screen-xl flex fle
                 class="block py-2 px-3  rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent">{{User
                 account}}</a>
         </li>
+        <li>
+            <a id="logOut" href="login.html?logout=true"
+                class="block py-2 px-3  rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent">Logout</a>
+        </li>
     </ul>
 </div>
 </div>`
