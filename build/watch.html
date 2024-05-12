@@ -15,6 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/player.js"></script>
     <script src="js/key.js"></script>
+    <link rel="icon" href="assets/img/UIT.svg">
 </head>
 
 <body class="h-full mx-auto py-8 bg-gray-800 relative" onload="renderRating()">
@@ -78,25 +79,11 @@
                     }
                 });
             }
-            function checkConnectionSpeed() {
-                var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-                if (connection) {
-                    var speedMbps = connection.downlink / 1024;
-                    if (speedMbps < 2) {
-                        // Adjust quality for slow connections
-                        updateQuality(availableQualities[0]);
-                    } else if (speedMbps < 5) {
-                        // Adjust quality for moderate connections
-                        updateQuality(availableQualities[Math.floor(availableQualities.length / 2)]);
-                    } else {
-                        // Use default quality for fast connections
-                        updateQuality(defaultQuality.quality.default);
-                    }
-                }
-            }
     
             // Check connection speed when page loads
-            checkConnectionSpeed();
+            windows.hls.currentLevel = -1;
+            windows.hls.nextLevel = -1;
+            windows.hls.loadLevel = -1;
         });
 
     </script>
