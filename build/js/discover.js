@@ -123,21 +123,21 @@ async function fetchHot(id) {
     let change = [{
         id: data[0].uuid,
         title: data[0].filmName,
-        //release_date: data.first_air_date || data.release_date,
+        release_date: data[0].releaseDate,
         poster_path: `https://sv.netflop.site/public/media/${data[0].uuid}/${data[0].poster}`,
         ovw: data[0].description,
-        //vote_average: data.vote_average,
-        //vote_count: data.vote_count,
+        vote_average: 0,
+        vote_count: 0,
     }];
     for (let i = 1; i < data.length; i++) {
         change.push({
             id: data[i].uuid,
             title: data[i].filmName,
-            release_date: data.first_air_date || data.release_date,
+            release_date: data[i].releaseDate,
             poster_path: `https://sv.netflop.site/public/media/${data[i].uuid}/${data[i].poster}`,
             ovw: data[i].description,
-            //vote_average: data.vote_average,
-            //vote_count: data.vote_count,
+            vote_average: 0,
+            vote_count: 0,
         });
     }
     return change;
