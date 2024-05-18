@@ -50,81 +50,81 @@ document.getElementById("nav").innerHTML = `<div class="max-w-screen-xl flex fle
                 <ul class="grid grid-cols-3 justify-center items-center py-2 text-sm text-gray-700 dark:text-gray-400"
                     aria-labelledby="dropdownLargeButton">
                     <li>
-                        <a href="discover.html?genre=28"
+                        <a href="discover.html"
                             class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Action</a>
                     </li>
                     <li>
-                        <a href="discover.html?genre=12"
+                        <a href="discover.html"
                             class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Adventure</a>
                     </li>
                     <li>
-                        <a href="discover.html?genre=16"
+                        <a href="discover.html"
                             class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Animation</a>
                     </li>
                     <li>
-                        <a href="discover.html?genre=35"
+                        <a href="discover.html"
                             class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Comedy</a>
                     </li>
                     <li>
-                        <a href="discover.html?genre=80"
+                        <a href="discover.html"
                             class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Crime</a>
                     </li>
                     <li>
-                        <a href="discover.html?genre=99"
+                        <a href="discover.html"
                             class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Documentary</a>
                     </li>
                     <li>
-                        <a href="discover.html?genre=18"
+                        <a href="discover.html"
                             class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Drama</a>
                     </li>
                     <li>
-                        <a href="discover.html?genre=10751"
+                        <a href="discover.html"
                             class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Family</a>
                     </li>
                     <li>
-                        <a href="discover.html?genre=14"
+                        <a href="discover.html"
                             class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Fantasy</a>
                     </li>
                     <li>
-                        <a href="discover.html?genre=36"
+                        <a href="discover.html"
                             class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">History</a>
                     </li>
                     <li>
-                        <a href="discover.html?genre=27"
+                        <a href="discover.html"
                             class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Horror</a>
                     </li>
                     <li>
-                        <a href="discover.html?genre=10402"
+                        <a href="discover.html"
                             class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Music</a>
                     </li>
                     <li>
-                        <a href="discover.html?genre=9648"
+                        <a href="discover.html"
                             class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mystery</a>
                     </li>
                     <li>
-                        <a href="discover.html?genre=10749"
+                        <a href="discover.html"
                             class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Romance</a>
                     </li>
                     <li>
-                        <a href="discover.html?genre=878"
+                        <a href="discover.html"
                             class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Science
                             Fiction</a>
                     </li>
                     <li>
-                        <a href="discover.html?genre=10770"
+                        <a href="discover.html"
                             class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">TV
                             Movie</a>
                     </li>
                     <li>
-                        <a href="discover.html?genre=53"
+                        <a href="discover.html"
                             class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Thriller</a>
                     </li>
                     <li>
-                        <a href="discover.html?genre=10752"
+                        <a href="discover.html"
                             class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">War</a>
                     </li>
                     <li>
-                        <a href="discover.html?genre=37"
+                        <a href="discover.html"
                             class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Western</a>
                     </li>
                 </ul>
@@ -135,10 +135,6 @@ document.getElementById("nav").innerHTML = `<div class="max-w-screen-xl flex fle
                 </div>
 
             </div>
-        </li>
-        <li>
-            <a href="discover.html?genre=-1"
-                class="cursor-pointer block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent">Hot</a>
         </li>
         <!-- Please remember, BE -->
         <li>

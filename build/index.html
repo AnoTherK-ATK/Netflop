@@ -11,6 +11,7 @@
 
 <body class="max-h-screen place-content-center ">
     <script>
+        history.pushState({}, "", "");
         if(getCookie("token") != ""){
             window.location.href = "discover.html";
         }

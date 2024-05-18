@@ -15,6 +15,7 @@
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const uuid = urlParams.get('logout');
+        
         if (uuid == "true") {
             logOut();
         }
@@ -93,7 +94,7 @@
                 });
             });
         });
-
+        history.pushState({}, "", "signin");
     </script>
 </body>
 
