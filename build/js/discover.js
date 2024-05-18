@@ -1,5 +1,5 @@
 let page = 1;
-let genID = 0;
+let genID = -1;
 const param = new URLSearchParams(window.location.search);
 if (param.has("genre")) {
     genID = param.get("genre");
