@@ -38,7 +38,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const uuid = urlParams.get('id');
         const name = urlParams.get('name');
-        history.pushState({}, "", "watch/" + name);
+        history.pushState({}, "", "watch?name=" + name);
         $("video").attr("poster", "https://sv.netflop.site/public/media/" + uuid + "/" + uuid + ".png");
         document.addEventListener("DOMContentLoaded", () => {
             let player = document.getElementById("player");
