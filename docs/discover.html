@@ -15,6 +15,9 @@
 </head>
 
 <body class="h-full mx-auto py-8 bg-gray-800 relative">
+    <script>
+        history.pushState({}, "", "/dicover");
+    </script>
     <nav class="border-gray-200 bg-gray-900 dark:border-gray-700" id="nav">
         
     </nav>
@@ -35,13 +38,12 @@
         }
     </script>
     <script>
-        $("#navbar-search").on('keyup', function (e) {
-            if (e.key === 'Enter' || e.keyCode === 13) {
-                var str = $("#navbar-search").val();
-                searchMovies(str);
+        $(document).ready(function () {
+            if(getCookie("token") == ""){
+                window.location.href = "login.html";
             }
         });
-        
+    
     </script>
 </body>
 

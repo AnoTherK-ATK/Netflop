@@ -13,6 +13,41 @@ async function fetchMovies() {
     return data.results;
 }
 
+function ChangeToSlug(txt)
+{
+    var title, slug;
+ 
+    //Lấy text từ thẻ input title 
+    title = txt;
+ 
+    //Đổi chữ hoa thành chữ thường
+    slug = title.toLowerCase();
+ 
+    //Đổi ký tự có dấu thành không dấu
+    slug = slug.replace(/á|à|ả|ạ|ã|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ/gi, 'a');
+    slug = slug.replace(/é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ/gi, 'e');
+    slug = slug.replace(/i|í|ì|ỉ|ĩ|ị/gi, 'i');
+    slug = slug.replace(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/gi, 'o');
+    slug = slug.replace(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/gi, 'u');
+    slug = slug.replace(/ý|ỳ|ỷ|ỹ|ỵ/gi, 'y');
+    slug = slug.replace(/đ/gi, 'd');
+    //Xóa các ký tự đặt biệt
+    slug = slug.replace(/\`|\~|\!|\@|\#|\||\$|\%|\^|\&|\*|\(|\)|\+|\=|\,|\.|\/|\?|\>|\<|\'|\"|\:|\;|_/gi, '');
+    //Đổi khoảng trắng thành ký tự gạch ngang
+    slug = slug.replace(/ /gi, " - ");
+    //Đổi nhiều ký tự gạch ngang liên tiếp thành 1 ký tự gạch ngang
+    //Phòng trường hợp người nhập vào quá nhiều ký tự trắng
+    slug = slug.replace(/\-\-\-\-\-/gi, '-');
+    slug = slug.replace(/\-\-\-\-/gi, '-');
+    slug = slug.replace(/\-\-\-/gi, '-');
+    slug = slug.replace(/\-\-/gi, '-');
+    //Xóa các ký tự gạch ngang ở đầu và cuối
+    slug = '@' + slug + '@';
+    slug = slug.replace(/\@\-|\-\@|\@/gi, '');
+    //In slug ra textbox có id “slug”
+    return slug
+}
+
 function elementGen(movie, gen) {
     return `<div class='flex max-w-sm w-full bg-transparent shadow-md rounded-lg overflow-hidden mx-auto h-full'>
     <div class='w-2 bg-gray-800 h-96'></div>
@@ -22,7 +57,7 @@ function elementGen(movie, gen) {
         <div
             class="absolute inset-0 z-10 transition duration-300 ease-in-out bg-gradient-to-t from-black via-gray-900 to-transparent to-75%">
         </div>
-        <a href="watch.html?id=${movie.id}">
+        <a href="watch.html?id=${movie.id}&name=${ChangeToSlug(movie.title)}">
         <div class="relative cursor-pointer group z-10 px-10 pt-10 space-y-6 movie_info" data-lity=""
             >
             <div class="poster__info align-self-end w-full">
@@ -49,7 +84,7 @@ function elementGen(movie, gen) {
                         <div class="flex flex-col"></div>
                         <div class="text-xs text-gray-400 mb-2">Overview:</div>
                         <p class="text-xs text-gray-100 mb-6">
-                            ${(gen == -1 ? movie.ovw : ovw)}
+                            ${gen == -1 ? movie.ovw : ovw}
                         </p>
                     </div>
                 </div>
@@ -57,7 +92,7 @@ function elementGen(movie, gen) {
         </div>
         </a>
         <img class="absolute inset-0 transform w-full -translate-y-4"
-            src=${(gen == -1 ? movie.poster_path : ("http://image.tmdb.org/t/p/w342" + movie.poster_path))} style="filter: grayscale(0);" />
+            src=${gen == -1 ? movie.poster_path : "http://image.tmdb.org/t/p/w342" + movie.poster_path} style="filter: grayscale(0);" />
             
             </div>
             
@@ -65,70 +100,40 @@ function elementGen(movie, gen) {
 `;
 }
 
-async function fetchMoviesByGenre(genreId) {
-    const response = await fetch(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=${page}&with_genres=${genreId}`
-    );
-    const data = await response.json();
-    return data.results;
-}
-
 async function renderMovies(genreID = genID, ppage = 0) {
     const moviesContainer = document.getElementById("movies-container");
-    let movies;
-    if (ppage == 0) {
-        ppage = 1;
-        page = 1;
-    }
-    if (genreID == 0) {
-        genID = 0;
-        movies = await fetchMovies();
-    } else if (genreID == -1) {
-        genID = -1;
-        await renderHot();
-        return;
-    } else {
-        moviesContainer.innerHTML = "";
-        genID = genreID;
-        movies = await fetchMoviesByGenre(genreID);
-    }
 
-    movies.forEach((movie) => {
-        ovw = movie.overview;
-        if (ovw.length > 450) {
-            ovw = ovw.substring(0, 450) + "...";
-        }
-        for (let i = 0; i < Math.max(0, 453 - ovw.length); i++) {
-            ovw += "    ";
-        }
-        movie.id = "movie/" + movie.id;
-        const movieCard = elementGen(movie);
-        moviesContainer.innerHTML += movieCard;
-    });
+    genID = -1;
+    await renderHot();
+    return;
 }
 
 async function fetchHot(id) {
-    
     let data = "";
-    const response = await fetch(`https://sv.netflop.site/user/getAllFilmsInfo`, {
-        method: "GET",
-        headers: {
-            "Authorization": `Bearer ${getCookie("token")}`,
-        },
-    });
+    const response = await fetch(
+        `https://sv.netflop.site/user/getAllFilmsInfo`,
+        {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${getCookie("token")}`,
+            },
+        }
+    );
     if (response.status === 200) {
         data = await response.json();
         console.log(data);
     }
-    let change = [{
-        id: data[0].uuid,
-        title: data[0].filmName,
-        release_date: data[0].releaseDate,
-        poster_path: `https://sv.netflop.site/public/media/${data[0].uuid}/${data[0].poster}`,
-        ovw: data[0].description,
-        vote_average: 0,
-        vote_count: 0,
-    }];
+    let change = [
+        {
+            id: data[0].uuid,
+            title: data[0].filmName,
+            release_date: data[0].releaseDate,
+            poster_path: `https://sv.netflop.site/public/media/${data[0].uuid}/${data[0].poster}`,
+            ovw: data[0].description,
+            vote_average: 0,
+            vote_count: 0,
+        },
+    ];
     for (let i = 1; i < data.length; i++) {
         change.push({
             id: data[i].uuid,
@@ -151,41 +156,6 @@ async function renderHot() {
     movies = await fetchHot();
     movies.forEach((movie) => {
         const movieCard = elementGen(movie, -1);
-        moviesContainer.innerHTML += movieCard;
-    });
-}
-
-document.addEventListener("DOMContentLoaded", async () => {
-    await renderMovies();
-
-    window.addEventListener("scroll", async () => {
-        if (
-            Math.round(window.innerHeight + window.scrollY) >=
-            document.body.offsetHeight
-        ) {
-            page++;
-            if(genID != -1) await renderMovies(genID, page);
-        }
-    });
-});
-
-async function searchMovies(search) {
-    const response = await fetch(
-        `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&query=${search}&page=1&include_adult=false`
-    );
-    const data = await response.json();
-    const movies = data.results;
-    const moviesContainer = document.getElementById("movies-container");
-    moviesContainer.innerHTML = "";
-    movies.forEach((movie) => {
-        ovw = movie.overview;
-        if (ovw.length > 450) {
-            ovw = ovw.substring(0, 450) + "...";
-        }
-        for (let i = 0; i < Math.max(0, 453 - ovw.length); i++) {
-            ovw += "    ";
-        }
-        const movieCard = elementGen(movie);
         moviesContainer.innerHTML += movieCard;
     });
 }

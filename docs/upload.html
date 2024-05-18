@@ -15,6 +15,9 @@
 </head>
 
 <body class="h-full mx-auto py-8 bg-gray-800 relative">
+    <script>
+        history.pushState({}, "", "/upload");
+    </script>
     <nav id="nav" class="border-gray-200 bg-gray-900 dark:border-gray-700">
     </nav>
     <script src="js/genres.js"></script>
@@ -77,7 +80,7 @@
                 var formData = {
                     filmName: $('#name').val(),
                     description: $('#overview').val(),
-                    release: $('#release-date').val(),
+                    releaseDate: $('#release-date').val(),
                     poster: $('#poster_input')[0].files[0].name.replaceAll(" ", "")
                 };
 
