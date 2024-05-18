@@ -15,7 +15,7 @@
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const uuid = urlParams.get('logout');
-        history.pushState({}, "", "/signin");
+        history.pushState({}, "", "signin");
         if (uuid == "true") {
             logOut();
         }
