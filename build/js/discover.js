@@ -159,3 +159,4 @@ async function renderHot() {
         moviesContainer.innerHTML += movieCard;
     });
 }
+
