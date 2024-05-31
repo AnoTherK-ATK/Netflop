@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflop - Payment</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="assets/img/UIT.svg" type="image/x-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="js/key.js"></script>
+</head>
+
+<body class="h-screen bg-gradient-to-tr from-teal-600 to-blue-950 to-60%">
+
+    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 ">
+        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+            <img class="mx-auto h-10 w-auto" src="assets/img/UIT.svg" alt="Netflop">
+            <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white">Forever plan just for
+                1.337.000đ
+            </h2>
+        </div>
+
+        <div
+            class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-4 sm:p-6 bg-gray-800 border border-gray-200 rounded-lg shadow-xl">
+            <form class="space-y-6" id="payment" method="POST">
+                <input type="hidden" name="ordertype" id="ordertype" value="billpayment" />
+                <input type="hidden" name="amount" id="amount" value="1337000" />
+                <input type="hidden" name="OrderDescription" id="OrderDescription" value="Netflop Forever plan" />
+                <label for="bankcode" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a bank
+                    you want</label>
+                <select id="bankcode" name="bankcode"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="">None</option>
+                    <option value="QRONLY">Thanh toan QRONLY</option>
+                    <option value="MBAPP">Ung dung MobileBanking</option>
+                    <option value="VNPAYQR">VNPAYQR</option>
+                    <option value="VNBANK">LOCAL BANK</option>
+                    <option value="IB">INTERNET BANKING</option>
+                    <option value="ATM">ATM CARD</option>
+                    <option value="INTCARD">INTERNATIONAL CARD</option>
+                    <option value="VISA">VISA</option>
+                    <option value="MASTERCARD"> MASTERCARD</option>
+                    <option value="JCB">JCB</option>
+                    <option value="UPI">UPI</option>
+                    <option value="VIB">VIB</option>
+                    <option value="VIETCAPITALBANK">VIETCAPITALBANK</option>
+                    <option value="SCB">Ngan hang SCB</option>
+                    <option value="NCB">Ngan hang NCB</option>
+                    <option value="SACOMBANK">Ngan hang SacomBank </option>
+                    <option value="EXIMBANK">Ngan hang EximBank </option>
+                    <option value="MSBANK">Ngan hang MSBANK </option>
+                    <option value="NAMABANK">Ngan hang NamABank </option>
+                    <option value="VNMART"> Vi dien tu VnMart</option>
+                    <option value="VIETINBANK">Ngan hang Vietinbank </option>
+                    <option value="VIETCOMBANK">Ngan hang VCB </option>
+                    <option value="HDBANK">Ngan hang HDBank</option>
+                    <option value="DONGABANK">Ngan hang Dong A</option>
+                    <option value="TPBANK">Ngân hàng TPBank </option>
+                    <option value="OJB">Ngân hàng OceanBank</option>
+                    <option value="BIDV">Ngân hàng BIDV </option>
+                    <option value="TECHCOMBANK">Ngân hàng Techcombank </option>
+                    <option value="VPBANK">Ngan hang VPBank </option>
+                    <option value="AGRIBANK">Ngan hang Agribank </option>
+                    <option value="MBBANK">Ngan hang MBBank </option>
+                    <option value="ACB">Ngan hang ACB </option>
+                    <option value="OCB">Ngan hang OCB </option>
+                    <option value="IVB">Ngan hang IVB </option>
+                    <option value="SHB">Ngan hang SHB </option>
+                    <option value="APPLEPAY">Apple Pay </option>
+                    <option value="GOOGLEPAY">Google Pay </option>
+                </select>
+                <input type="hidden" name="language" id="language" value="vn" />
+                <input name="__RequestVerificationToken" type="hidden"
+                    value="_I1K3_COxza_8B0zaA63ueYGJX_sjU8KS69WblTPISLSFOAIFln0qfJogpLveVLKef8sgskkEnRzZ5r8PMxsJnaziztW9JVTwaR7CLzKex81" />
+                <div>
+                    <button type="submit"
+                        class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign
+                        in</button>
+                </div>
+            </form>
+
+
+        </div>
+
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#payment').submit(function (e) {
+                e.preventDefault();
+                formData = $('#payment').serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://sandbox.vnpayment.vn/tryitnow/Home/CreateOrder',
+                    dataType: 'JSON',
+                    data: formData,
+                    success: function (data) {
+                        console.log(data);
+                        if (data.code === "00") {
+                            window.location = data.data;
+                        } else {
+                            alert(data.Message);
+                        }
+                    },
+                    error: function (data) {
+                        console.log(data);
+                        alert(data.Message);
+                    }
+                });
+            });
+        })
+    </script>
+</body>
+
+</html>

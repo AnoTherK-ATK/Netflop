@@ -66,20 +66,6 @@ function elementGen(movie, gen) {
                     <div class="flex flex-col space-y-2 inner">
                         <h3 class="text-2xl font-bold text-white" data-unsp-sanitized="clean">${movie.title}</h3>
                     </div>
-                    <div class="flex flex-row justify-between datos">
-                        <div class="flex flex-col datos_col">
-                            <div class="text-sm text-gray-400">Release date:</div>
-                            <div class="release">${gen == -1 ? "" : movie.release_date}</div>
-                        </div>
-                        <div class="flex flex-col datos_col">
-                            <div class="text-sm text-gray-400">Score:</div>
-                            <div class="release">${gen == -1 ? "" : movie.vote_average}</div>
-                        </div>
-                        <div class="flex flex-col datos_col">
-                            <div class="text-sm text-gray-400">Votes:</div>
-                            <div class="release">${gen == -1 ? "" : movie.vote_count}</div>
-                        </div>
-                    </div>
                     <div class="flex flex-col overview">
                         <div class="flex flex-col"></div>
                         <div class="text-xs text-gray-400 mb-2">Overview:</div>
