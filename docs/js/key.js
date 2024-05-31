@@ -1,4 +1,4 @@
-const apiKey = "2f2c4f80fa170f15fec1e975abc0a486";
+
 function getCookie(name) {
     var value = "; " + document.cookie;
     var parts = value.split("; " + name + "=");
@@ -12,5 +12,5 @@ function logOut() {
     deleteCookie('role');
     deleteCookie('name');
     deleteCookie('token');
-    window.location.href = "login.html";
+    //window.location.href = "login.html";
 }
