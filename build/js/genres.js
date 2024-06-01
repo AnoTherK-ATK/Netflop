@@ -138,9 +138,8 @@ document.getElementById("nav").innerHTML = `<div class="max-w-screen-xl flex fle
         </li>
         <!-- Please remember, BE -->
         <li>
-            <a id="userName" href=${getCookie('role') == "admin" ? "upload.html" : "#"}
-                class="block py-2 px-3  rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent">{{User
-                account}}</a>
+            <a id="userName" href="upload.html"
+                class="${getCookie('role') != 'admin' ? "hidden" : "" } block py-2 px-3  rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent">Upload</a>
         </li>
         <li>
             <a id="logOut" href="login.html?logout=true"
@@ -150,5 +149,5 @@ document.getElementById("nav").innerHTML = `<div class="max-w-screen-xl flex fle
 </div>
 </div>`
 
-document.getElementById('userName').innerHTML = getCookie('name');
+//document.getElementById('userName').innerHTML = getCookie('name');
                     
