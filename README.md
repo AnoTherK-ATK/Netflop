@@ -12,7 +12,7 @@
 > 
 > Đào Hoàng Phúc - 22521110
 > 
-> Vũ Ngọc Quốc Khánh - 22520661
+> Vũ Ngọc Quốc Khánh - 2
 
 ## Architect 
 ![](https://i.imgur.com/EuPfh9P.png)
