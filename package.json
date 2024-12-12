@@ -2,15 +2,15 @@
 
   "dependencies": {
 
-    "@tailwindcss/forms": "^0.5.7",
-
     "apexcharts": "^3.48.0",
 
     "express": "^4.19.2",
 
-    "flowbite": "^2.3.0",
+    "flowbite": "^2.5.2",
 
     "hls.js": "^1.5.8",
+
+    "keycloak-js": "^26.0.7",
 
     "videojs-plus": "^1.6.9"
 
@@ -28,7 +28,11 @@
 
   "devDependencies": {
 
-    "prettier-plugin-tailwindcss": "^0.5.12"
+    "@tailwindcss/forms": "^0.5.9",
+
+    "prettier-plugin-tailwindcss": "^0.5.12",
+
+    "tailwindcss": "^3.4.16"
 
   }
 

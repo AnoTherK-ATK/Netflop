@@ -142,7 +142,7 @@ document.getElementById("nav").innerHTML = `<div class="max-w-screen-xl flex fle
                 class="${getCookie('role') != 'admin' ? "hidden" : "" } block py-2 px-3  rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent">Upload</a>
         </li>
         <li>
-            <a id="logOut" href="login.html?logout=true"
+            <a id="logOut" href="logout.html" onclick="keycloakLogout()"
                 class="block py-2 px-3  rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent">Logout</a>
         </li>
     </ul>

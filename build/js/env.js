@@ -1,0 +1,10 @@
+const CLIENT_ID = "netflop-user";
+const CLINET_SECRET = "59oGRZ0E02KJB3ZmYelejGh9LWXu4EW7";
+const API_URL = "http://localhost:8180/auth/realms/demo/protocol/openid-connect/auth";
+var matches = window.location.href.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
+var domain = matches && matches[1];
+let REDIRECT_URI = domain + "/build/discover.html";
+const TOKEN_URL = "http://localhost:8180/auth/realms/demo/protocol/openid-connect/token";
+const USER_INFO_URL = "http://localhost:8180/auth/realms/demo/protocol/openid-connect/userinfo";
+const LOGOUT_URL = "http://localhost:8180/auth/realms/demo/protocol/openid-connect/logout";
+const LOGIN_URL = "http://localhost:8180/auth/realms/demo/protocol/openid-connect/auth?client_id=netflop-user&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=openid";
